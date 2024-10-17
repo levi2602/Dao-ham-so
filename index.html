@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đạo Hàm Hàm Số</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s; /* Thêm hiệu ứng chuyển đổi */
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            transition: background-color 0.3s; /* Thêm hiệu ứng chuyển đổi */
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%; /* Đặt chiều rộng nút là 100% để hiển thị đầy đủ */
+            padding: 15px; /* Tăng kích thước nút */
+            margin: 5px 0; /* Giảm khoảng cách giữa các nút */
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            font-size: 16px; /* Tăng kích thước chữ */
+            white-space: nowrap; /* Ngăn nút xuống dòng */
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            white-space: pre-wrap; /* Cho phép định dạng hiển thị với khoảng trắng */
+            word-wrap: break-word; /* Tự động xuống dòng */
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .clear-buttons {
+            display: flex;
+            justify-content: space-between; /* Chia đều khoảng cách giữa hai nút */
+            margin-top: 10px;
+        }
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px; /* Đặt chiều rộng nút */
+            height: 40px; /* Đặt chiều cao nút */
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            font-size: 20px; /* Kích thước chữ */
+            display: flex;
+            justify-content: center; /* Căn giữa biểu tượng */
+            align-items: center; /* Căn giữa biểu tượng */
+        }
+        .dark-theme {
+            background-color: #333;
+            color: white;
+        }
+        .dark-theme .container {
+            background: #444;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+        .dark-theme button {
+            background-color: #555;
+            color: white;
+        }
+        .dark-theme button:hover {
+            background-color: #666;
+        }
+    </style>
+</head>
+<body>
+
+<button class="theme-toggle" onclick="toggleTheme()" id="themeButton">☀️</button>
+
+<div class="container">
+    <h1>Đạo Hàm Hàm Số</h1>
+    <input type="text" id="functionInput" placeholder="Nhập hàm số">
+    <div class="clear-buttons">
+        <button onclick="clearInput()">Xóa</button>
+        <button onclick="clearAll()">Xóa tất cả</button>
+    </div>
+    <div class="grid">
+        <button onclick="appendToInput('1')">1</button>
+        <button onclick="appendToInput('2')">2</button>
+        <button onclick="appendToInput('3')">3</button>
+        <button onclick="appendToInput('4')">4</button>
+        <button onclick="appendToInput('5')">5</button>
+        <button onclick="appendToInput('6')">6</button>
+        <button onclick="appendToInput('7')">7</button>
+        <button onclick="appendToInput('8')">8</button>
+        <button onclick="appendToInput('9')">9</button>
+        <button onclick="appendToInput('0')">0</button>
+        <button onclick="appendToInput('^')">Mũ (^) </button>
+        <button onclick="appendToInput('/')">Phân số (/) </button>
+        <button onclick="appendToInput('x')">Biến (x)</button>
+        <button onclick="appendToInput('(')"> ( </button>
+        <button onclick="appendToInput(')')"> ) </button>
+        <button onclick="appendToInput('+')">+</button>
+        <button onclick="appendToInput('-')">-</button>
+    </div>
+    <button id="calculateFirstDerivative">Đạo hàm cấp 1</button>
+    <button id="calculateSecondDerivative">Đạo hàm cấp 2</button>
+    <div class="result" id="resultDisplay"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjs/lib/browser/math.js"></script>
+<script>
+    function appendToInput(value) {
+        const input = document.getElementById('functionInput');
+        input.value += value;
+    }
+
+    function clearInput() {
+        const input = document.getElementById('functionInput');
+        input.value = input.value.slice(0, -1); // Xóa ký tự cuối cùng
+    }
+
+    function clearAll() {
+        document.getElementById('functionInput').value = ''; // Xóa tất cả
+        document.getElementById('resultDisplay').innerHTML = ''; // Xóa kết quả
+    }
+
+    function calculateDerivative(func, order) {
+        let derivative = func;
+        for (let i = 0; i < order; i++) {
+            derivative = math.derivative(derivative, 'x').toString();
+        }
+        return derivative;
+    }
+
+    document.getElementById('calculateFirstDerivative').onclick = function() {
+        const func = document.getElementById('functionInput').value;
+        const firstDerivative = calculateDerivative(func, 1);
+        document.getElementById('resultDisplay').innerHTML = 'Đạo hàm cấp 1: <br>' + firstDerivative;
+    };
+
+    document.getElementById('calculateSecondDerivative').onclick = function() {
+        const func = document.getElementById('functionInput').value;
+        const secondDerivative = calculateDerivative(func, 2);
+        document.getElementById('resultDisplay').innerHTML = 'Đạo hàm cấp 2: <br>' + secondDerivative;
+    };
+
+    function toggleTheme() {
+        document.body.classList.toggle('dark-theme');
+        const button = document.getElementById('themeButton');
+        button.innerText = button.innerText === '☀️' ? '🌙' : '☀️'; // Đổi giữa mặt trời và mặt trăng
+    }
+</script>
+
+</body>
+</html>

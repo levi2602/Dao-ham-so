@@ -14,7 +14,7 @@
             height: 100vh;
             margin: 0;
             padding: 20px;
-            transition: background-color 0.3s, color 0.3s; /* Thêm hiệu ứng chuyển đổi */
+            transition: background-color 0.5s ease, color 0.5s ease; /* Thêm hiệu ứng chuyển đổi */
         }
         .container {
             background: white;
@@ -24,7 +24,7 @@
             width: 100%;
             max-width: 400px;
             text-align: center;
-            transition: background-color 0.3s; /* Thêm hiệu ứng chuyển đổi */
+            transition: background-color 0.5s ease, box-shadow 0.5s ease; /* Hiệu ứng chuyển đổi */
         }
         input {
             width: 100%;
@@ -34,25 +34,27 @@
             border-radius: 5px;
         }
         button {
-            width: 100%; /* Đặt chiều rộng nút là 100% để hiển thị đầy đủ */
-            padding: 15px; /* Tăng kích thước nút */
-            margin: 5px 0; /* Giảm khoảng cách giữa các nút */
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0;
             border: none;
             border-radius: 5px;
             background-color: #007BFF;
             color: white;
             cursor: pointer;
-            font-size: 16px; /* Tăng kích thước chữ */
-            white-space: nowrap; /* Ngăn nút xuống dòng */
+            font-size: 16px;
+            white-space: nowrap;
+            transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi cho nút */
         }
         button:hover {
             background-color: #0056b3;
         }
         .result {
-            margin-top: 20px;
+            margin-top: 10px;
             font-weight: bold;
-            white-space: pre-wrap; /* Cho phép định dạng hiển thị với khoảng trắng */
-            word-wrap: break-word; /* Tự động xuống dòng */
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            text-align: left;
         }
         .grid {
             display: grid;
@@ -62,36 +64,40 @@
         }
         .clear-buttons {
             display: flex;
-            justify-content: space-between; /* Chia đều khoảng cách giữa hai nút */
+            justify-content: space-between;
             margin-top: 10px;
         }
         .theme-toggle {
             position: absolute;
             top: 20px;
             left: 20px;
-            width: 40px; /* Đặt chiều rộng nút */
-            height: 40px; /* Đặt chiều cao nút */
+            width: 40px;
+            height: 40px;
             border: none;
             border-radius: 5px;
             background-color: #007BFF;
             color: white;
             cursor: pointer;
-            font-size: 20px; /* Kích thước chữ */
+            font-size: 20px;
             display: flex;
-            justify-content: center; /* Căn giữa biểu tượng */
-            align-items: center; /* Căn giữa biểu tượng */
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi */
         }
         .dark-theme {
             background-color: #333;
             color: white;
+            transition: background-color 0.5s ease, color 0.5s ease; /* Thêm hiệu ứng chuyển đổi */
         }
         .dark-theme .container {
             background: #444;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            transition: background-color 0.5s ease, box-shadow 0.5s ease; /* Thêm hiệu ứng chuyển đổi */
         }
         .dark-theme button {
             background-color: #555;
             color: white;
+            transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi cho nút */
         }
         .dark-theme button:hover {
             background-color: #666;
@@ -105,6 +111,7 @@
 <div class="container">
     <h1>Đạo Hàm Hàm Số</h1>
     <input type="text" id="functionInput" placeholder="Nhập hàm số">
+    <div class="result" id="resultDisplay"></div>
     <div class="clear-buttons">
         <button onclick="clearInput()">Xóa</button>
         <button onclick="clearAll()">Xóa tất cả</button>
@@ -130,7 +137,6 @@
     </div>
     <button id="calculateFirstDerivative">Đạo hàm cấp 1</button>
     <button id="calculateSecondDerivative">Đạo hàm cấp 2</button>
-    <div class="result" id="resultDisplay"></div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/mathjs/lib/browser/math.js"></script>
@@ -161,13 +167,13 @@
     document.getElementById('calculateFirstDerivative').onclick = function() {
         const func = document.getElementById('functionInput').value;
         const firstDerivative = calculateDerivative(func, 1);
-        document.getElementById('resultDisplay').innerHTML = 'Đạo hàm cấp 1: <br>' + firstDerivative;
+        document.getElementById('resultDisplay').innerHTML = 'Đạo hàm cấp 1: ' + firstDerivative;
     };
 
     document.getElementById('calculateSecondDerivative').onclick = function() {
         const func = document.getElementById('functionInput').value;
         const secondDerivative = calculateDerivative(func, 2);
-        document.getElementById('resultDisplay').innerHTML = 'Đạo hàm cấp 2: <br>' + secondDerivative;
+        document.getElementById('resultDisplay').innerHTML = 'Đạo hàm cấp 2: ' + secondDerivative;
     };
 
     function toggleTheme() {
